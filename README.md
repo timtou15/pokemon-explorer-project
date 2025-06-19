@@ -8,7 +8,9 @@ Uma aplicação web moderna e responsiva para explorar o universo Pokémon usand
 ![Vite](https://img.shields.io/badge/Vite-5.4.2-purple)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-## 📸 Screenshots
+## 🎥 Demonstração
+
+![Demonstração da aplicação](./assets/demo.gif)
 
 ### 🏠 Página Principal
 - Grade interativa com todos os Pokémon
