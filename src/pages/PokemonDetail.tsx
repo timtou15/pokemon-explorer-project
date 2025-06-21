@@ -35,7 +35,6 @@ export const PokemonDetail: React.FC = () => {
         setLoadingAbilities(true);
         const descriptions: {[key: string]: string} = {};
         
-        // Buscar descrições sequencialmente para evitar sobrecarga da API
         for (const ability of pokemon.abilities) {
           try {
             const description = await pokemonService.getAbilityDescription(
@@ -43,8 +42,6 @@ export const PokemonDetail: React.FC = () => {
               language
             );
             descriptions[ability.ability.name] = description;
-            
-            // Pequeno delay para não sobrecarregar a API
             await new Promise(resolve => setTimeout(resolve, 100));
           } catch (error) {
             console.error(`Erro ao buscar descrição da habilidade ${ability.ability.name}:`, error);
@@ -60,6 +57,10 @@ export const PokemonDetail: React.FC = () => {
     fetchAbilityDescriptions();
   }, [pokemon, language]);
 
+  const handleBackClick = () => {
+    navigate('/');
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
@@ -74,7 +75,7 @@ export const PokemonDetail: React.FC = () => {
         <div className="bg-white rounded-lg shadow-lg p-8 text-center">
           <p className="text-red-600 text-lg">{error || t('message.pokemonNotFound')}</p>
           <button
-            onClick={() => navigate('/')}
+            onClick={handleBackClick}
             className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
           >
             {t('nav.goBack')}
@@ -96,17 +97,15 @@ export const PokemonDetail: React.FC = () => {
     }
   };
 
-  // Obter textos com fallbacks seguros, passando o nome do Pokémon
   const flavorText = getFlavorText(species, language, pokemon.name);
   const genus = getGenus(species, language);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       <div className="container mx-auto px-4 py-8">
-        {/* Cabeçalho */}
         <div className="flex items-center justify-between mb-8">
           <button
-            onClick={() => navigate('/')}
+            onClick={handleBackClick}
             className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors"
           >
             <ArrowLeft size={20} />
@@ -115,20 +114,22 @@ export const PokemonDetail: React.FC = () => {
           
           <button
             onClick={handleFavoriteClick}
-            className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-all duration-200 ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-all duration-150 transform hover:scale-105 active:scale-95 ${
               favorite 
-                ? 'bg-red-500 text-white shadow-md' 
-                : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                ? 'bg-red-500 text-white shadow-md hover:bg-red-600' 
+                : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 hover:text-red-500'
             }`}
           >
-            <Heart size={18} fill={favorite ? 'currentColor' : 'none'} />
+            <Heart 
+              size={18} 
+              fill={favorite ? 'currentColor' : 'none'} 
+              className={`transition-all duration-150 ${favorite ? 'animate-pulse' : ''}`}
+            />
             {favorite ? t('nav.removeFromFavorites') : t('nav.addToFavorites')}
           </button>
         </div>
 
-        {/* Conteúdo Principal */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Coluna Esquerda - Imagem e Informações Básicas */}
           <div className="space-y-6">
             <div 
               className="bg-white rounded-2xl shadow-lg p-8 text-center"
@@ -153,6 +154,7 @@ export const PokemonDetail: React.FC = () => {
                   src={pokemon.sprites.other['official-artwork']?.front_default || pokemon.sprites.front_default}
                   alt={pokemon.name}
                   className="w-48 h-48 mx-auto object-contain drop-shadow-2xl"
+                  loading="eager"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     if (target.src !== pokemon.sprites.front_default) {
@@ -181,7 +183,6 @@ export const PokemonDetail: React.FC = () => {
               )}
             </div>
 
-            {/* Estatísticas Físicas */}
             <div className="bg-white rounded-2xl shadow-lg p-6">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">{t('title.physicalStats')}</h2>
               <div className="grid grid-cols-2 gap-4">
@@ -217,9 +218,7 @@ export const PokemonDetail: React.FC = () => {
             </div>
           </div>
 
-          {/* Coluna Direita - Estatísticas Detalhadas */}
           <div className="space-y-6">
-            {/* Estatísticas Base */}
             <div className="bg-white rounded-2xl shadow-lg p-6">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">{t('title.baseStats')}</h2>
               <div className="space-y-4">
@@ -239,13 +238,12 @@ export const PokemonDetail: React.FC = () => {
               </div>
             </div>
 
-            {/* Habilidades */}
             <div className="bg-white rounded-2xl shadow-lg p-6">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">{t('title.abilities')}</h2>
               {loadingAbilities && (
                 <div className="flex items-center justify-center py-4">
                   <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
-                  <span className="ml-2 text-gray-600">Carregando descrições...</span>
+                  <span className="ml-2 text-gray-600">{t('message.loadingDescriptions')}</span>
                 </div>
               )}
               <div className="space-y-3">
@@ -275,7 +273,7 @@ export const PokemonDetail: React.FC = () => {
                     )}
                     {!abilityDescriptions[ability.ability.name] && !loadingAbilities && (
                       <p className="text-sm text-gray-400 italic">
-                        {language === 'pt' ? 'Descrição não disponível' : 'Description not available'}
+                        {t('ability.descriptionNotAvailable')}
                       </p>
                     )}
                   </div>
@@ -283,7 +281,6 @@ export const PokemonDetail: React.FC = () => {
               </div>
             </div>
 
-            {/* Imagens Adicionais */}
             <div className="bg-white rounded-2xl shadow-lg p-6">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">{t('title.sprites')}</h2>
               <div className="grid grid-cols-2 gap-4">
@@ -293,6 +290,7 @@ export const PokemonDetail: React.FC = () => {
                       src={pokemon.sprites.front_default}
                       alt={`${pokemon.name} normal`}
                       className="w-24 h-24 mx-auto object-contain"
+                      loading="lazy"
                     />
                     <p className="text-sm text-gray-600 mt-2">{t('sprite.normal')}</p>
                   </div>
@@ -303,6 +301,7 @@ export const PokemonDetail: React.FC = () => {
                       src={pokemon.sprites.front_shiny}
                       alt={`${pokemon.name} shiny`}
                       className="w-24 h-24 mx-auto object-contain"
+                      loading="lazy"
                     />
                     <p className="text-sm text-gray-600 mt-2">{t('sprite.shiny')}</p>
                   </div>
@@ -313,6 +312,7 @@ export const PokemonDetail: React.FC = () => {
                       src={pokemon.sprites.other.dream_world.front_default}
                       alt={`${pokemon.name} dream world`}
                       className="w-32 h-32 mx-auto object-contain"
+                      loading="lazy"
                     />
                     <p className="text-sm text-gray-600 mt-2">{t('sprite.dreamWorld')}</p>
                   </div>
