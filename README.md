@@ -10,7 +10,7 @@ Uma aplicação web moderna e responsiva para explorar o universo Pokémon usand
 
 ## 🌟 Demonstração
 
-🔗 **[Ver Demo Online](https://glistening-kelpie-0abac6.netlify.app)**
+🔗 **[Ver Demo Online](pokemon-explorer-project.netlify.app)**
 
 ## 📸 Screenshots
 
