@@ -34,6 +34,10 @@ const translations = {
     'title.abilities': 'Habilidades',
     'title.sprites': 'Sprites',
     'title.totalBaseStats': 'Total de Estatísticas Base',
+    'title.filteredPokemon': 'Pokémon Filtrados',
+    'title.loadingAll': 'Carregando todos os Pokémon para filtros completos',
+    'title.allLoaded': 'Todos os Pokémon carregados',
+    'title.filterDescription': 'Agora você pode filtrar entre todos os Pokémon disponíveis',
     
     // Busca
     'search.placeholder': 'Buscar Pokémon por nome ou ID...',
@@ -45,12 +49,27 @@ const translations = {
     'stats.weight': 'Peso',
     'stats.baseExperience': 'Experiência Base',
     'stats.abilities': 'Habilidades',
+    'stats.hp': 'HP',
+    'stats.attack': 'Ataque',
+    'stats.defense': 'Defesa',
+    'stats.specialAttack': 'Ataque Especial',
+    'stats.specialDefense': 'Defesa Especial',
+    'stats.speed': 'Velocidade',
     
     // Mensagens
     'message.noFavorites': 'Nenhum Pokémon favorito ainda!',
     'message.noFavoritesDesc': 'Comece a explorar e adicione alguns aos seus favoritos.',
     'message.pokemonNotFound': 'Pokémon não encontrado',
     'message.errorFetching': 'Erro ao buscar dados',
+    'message.noResults': 'Nenhum Pokémon encontrado',
+    'message.adjustFilters': 'Tente ajustar os filtros',
+    'message.resultsFound': 'resultados encontrados',
+    'message.from': 'de',
+    'message.loaded': 'carregados',
+    'message.loading': 'Carregando',
+    'message.of': 'de',
+    'message.pokemon': 'Pokémon',
+    'message.loadingDescriptions': 'Carregando descrições...',
     
     // Sprites
     'sprite.normal': 'Normal',
@@ -59,10 +78,34 @@ const translations = {
     
     // Habilidades
     'ability.hidden': 'Oculta',
+    'ability.descriptionNotAvailable': 'Descrição não disponível',
+    
+    // Filtros
+    'filter.filters': 'Filtros',
+    'filter.advancedFilters': 'Filtros Avançados',
+    'filter.clearAll': 'Limpar Tudo',
+    'filter.pokemonTypes': 'Tipos de Pokémon',
+    'filter.generations': 'Gerações e Formas',
+    'filter.baseStats': 'Estatísticas Base',
+    'filter.selected': 'selecionados',
+    'filter.minimum': 'Mínimo',
+    'filter.maximum': 'Máximo',
+    
+    // Paginação
+    'pagination.previous': 'Página anterior',
+    'pagination.next': 'Próxima página',
+    
+    // Carregamento
+    'loading.pokemonData': 'Carregando dados dos Pokémon...',
+    'loading.allPokemon': 'Carregando todos os Pokémon...',
+    'loading.progress': 'Progresso',
+    'loading.complete': 'Carregamento completo concluído',
     
     // Idiomas
     'language.portuguese': 'Português',
     'language.english': 'English',
+    'language.current': 'Idioma atual',
+    'language.clickToToggle': 'Clique para alternar',
   },
   en: {
     // Navigation
@@ -83,6 +126,10 @@ const translations = {
     'title.abilities': 'Abilities',
     'title.sprites': 'Sprites',
     'title.totalBaseStats': 'Total Base Stats',
+    'title.filteredPokemon': 'Filtered Pokémon',
+    'title.loadingAll': 'Loading all Pokémon for complete filtering',
+    'title.allLoaded': 'All Pokémon loaded',
+    'title.filterDescription': 'Now you can filter through all available Pokémon',
     
     // Search
     'search.placeholder': 'Search Pokémon by name or ID...',
@@ -94,12 +141,27 @@ const translations = {
     'stats.weight': 'Weight',
     'stats.baseExperience': 'Base Experience',
     'stats.abilities': 'Abilities',
+    'stats.hp': 'HP',
+    'stats.attack': 'Attack',
+    'stats.defense': 'Defense',
+    'stats.specialAttack': 'Special Attack',
+    'stats.specialDefense': 'Special Defense',
+    'stats.speed': 'Speed',
     
     // Messages
     'message.noFavorites': 'No favorite Pokémon yet!',
     'message.noFavoritesDesc': 'Start exploring and add some to your favorites.',
     'message.pokemonNotFound': 'Pokémon not found',
     'message.errorFetching': 'Error fetching data',
+    'message.noResults': 'No Pokémon found',
+    'message.adjustFilters': 'Try adjusting the filters',
+    'message.resultsFound': 'results found',
+    'message.from': 'from',
+    'message.loaded': 'loaded',
+    'message.loading': 'Loading',
+    'message.of': 'of',
+    'message.pokemon': 'Pokémon',
+    'message.loadingDescriptions': 'Loading descriptions...',
     
     // Sprites
     'sprite.normal': 'Normal',
@@ -108,10 +170,34 @@ const translations = {
     
     // Abilities
     'ability.hidden': 'Hidden',
+    'ability.descriptionNotAvailable': 'Description not available',
+    
+    // Filters
+    'filter.filters': 'Filters',
+    'filter.advancedFilters': 'Advanced Filters',
+    'filter.clearAll': 'Clear All',
+    'filter.pokemonTypes': 'Pokémon Types',
+    'filter.generations': 'Generations & Forms',
+    'filter.baseStats': 'Base Statistics',
+    'filter.selected': 'selected',
+    'filter.minimum': 'Minimum',
+    'filter.maximum': 'Maximum',
+    
+    // Pagination
+    'pagination.previous': 'Previous page',
+    'pagination.next': 'Next page',
+    
+    // Loading
+    'loading.pokemonData': 'Loading Pokémon data...',
+    'loading.allPokemon': 'Loading all Pokémon...',
+    'loading.progress': 'Progress',
+    'loading.complete': 'Loading complete',
     
     // Languages
     'language.portuguese': 'Português',
     'language.english': 'English',
+    'language.current': 'Current language',
+    'language.clickToToggle': 'Click to toggle',
   }
 };
 
