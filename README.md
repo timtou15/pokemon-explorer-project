@@ -10,7 +10,7 @@ Uma aplicação web moderna e responsiva para explorar o universo Pokémon usand
 
 ## 🌟 Demonstração
 
-🔗 **[Ver Demo Online](pokemon-explorer-project.netlify.app)**
+🔗 **[Ver Demo Online](https://pokemon-explorer-project.netlify.app)**
 
 ## 📸 Screenshots
 
@@ -310,13 +310,5 @@ Se este projeto te ajudou ou você achou interessante:
 **Feito com ❤️ e ☕ por [Luiz Carlos](https://github.com/timtou15)**
 
 *"Gotta catch 'em all!"* 🎮
-
-### 🏆 Principais Conquistas
-
-🎯 **10.277+ Pokémon** carregados e filtráveis  
-🌍 **700+ traduções** manuais em português  
-⚡ **Performance 95+** no Lighthouse  
-🎨 **Interface premium** com animações  
-🔧 **Arquitetura robusta** com TypeScript  
 
 </div>
