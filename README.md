@@ -8,11 +8,12 @@ Uma aplicação web moderna e responsiva para explorar o universo Pokémon usand
 ![Vite](https://img.shields.io/badge/Vite-5.4.2-purple)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
+## 📸 Prévia
+![Demonstração do Pokémon Explorer](./demo.gif)
+
 ## 🌟 Demonstração
 
-🔗 **[Ver Demo Online](https://pokemon-explorer-project.netlify.app)**
-
-## 📸 Screenshots
+🔗 **[👉 Ver Demo Online](https://pokemon-explorer-project.netlify.app)**
 
 ### 🏠 Página Principal
 - Grade interativa com todos os Pokémon (10.277+)
