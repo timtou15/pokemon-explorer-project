@@ -121,3 +121,22 @@ export const STAT_TRANSLATIONS = {
   'special-defense': 'Defesa Especial',
   speed: 'Velocidade',
 };
+
+export const GENERATIONS = [
+  { id: 1, name: 'Kanto (I)', range: '1-151' },
+  { id: 2, name: 'Johto (II)', range: '152-251' },
+  { id: 3, name: 'Hoenn (III)', range: '252-386' },
+  { id: 4, name: 'Sinnoh (IV)', range: '387-493' },
+  { id: 5, name: 'Unova (V)', range: '494-649' },
+  { id: 6, name: 'Kalos (VI)', range: '650-721' },
+  { id: 7, name: 'Alola (VII)', range: '722-809' },
+  { id: 8, name: 'Galar (VIII)', range: '810-905' },
+  { id: 9, name: 'Paldea (IX)', range: '906-1025' },
+  { id: 10, name: 'Formas Especiais', range: '1026-10000+' },
+];
+
+// Generation names for search validation
+export const GENERATION_NAMES = [
+  'kanto', 'johto', 'hoenn', 'sinnoh', 'unova', 'kalos', 'alola', 'galar', 'paldea',
+  'generation', 'gen', 'i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix'
+];
