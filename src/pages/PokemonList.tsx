@@ -12,7 +12,9 @@ import { useFilteredPokemon } from '../hooks/useFilteredPokemon';
 import { useFavorites } from '../context/FavoritesContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useNavigation } from '../context/NavigationContext';
+import { useComparison } from '../context/ComparisonContext';
 import { ServiceContainer } from '../services/PokemonService';
+import { GENERATION_NAMES } from '../types/pokemon';
 
 const ITEMS_PER_PAGE = 20;
 
@@ -21,6 +23,7 @@ export const PokemonList: React.FC = () => {
   const { favorites } = useFavorites();
   const { language, t } = useLanguage();
   const { navigationState, updateNavigationState, restoreScrollPosition } = useNavigation();
+  const { comparisonList } = useComparison();
   
   const [currentPage, setCurrentPage] = useState(navigationState.currentPage);
   const [searchQuery, setSearchQuery] = useState(navigationState.searchQuery);
@@ -96,10 +99,27 @@ export const PokemonList: React.FC = () => {
     }
   }, [showFavorites, fetchFavoritePokemons]);
 
+  // Check if query is a generation name
+  const isGenerationQuery = useCallback((query: string): boolean => {
+    const normalizedQuery = query.toLowerCase().trim();
+    return GENERATION_NAMES.some(genName => 
+      normalizedQuery.includes(genName) || 
+      normalizedQuery === genName
+    );
+  }, []);
+
   const handleSearch = useCallback(async (query: string) => {
     setSearchLoading(true);
     setSearchError(null);
     setSearchQuery(query);
+    
+    // Check if the query is a generation name
+    if (isGenerationQuery(query)) {
+      setSearchError(t('search.useFiltersForGeneration'));
+      setSearchedPokemon(null);
+      setSearchLoading(false);
+      return;
+    }
     
     try {
       const pokemon = await pokemonService.searchPokemon(query);
@@ -110,7 +130,7 @@ export const PokemonList: React.FC = () => {
     } finally {
       setSearchLoading(false);
     }
-  }, [t]);
+  }, [t, isGenerationQuery]);
 
   const handleClearSearch = useCallback(() => {
     setSearchQuery('');
@@ -175,7 +195,7 @@ export const PokemonList: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
-      <div className="container mx-auto px-4 py-8">
+      <div className={`container mx-auto px-4 py-8 ${comparisonList.length > 0 ? 'pb-32' : ''}`}>
         <div className="text-center mb-8">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
             {t('title.pokemonExplorer')}
@@ -257,7 +277,7 @@ export const PokemonList: React.FC = () => {
               onClearFilters={handleClearFilters}
               isOpen={showAdvancedFilter}
               onToggle={() => setShowAdvancedFilter(!showAdvancedFilter)}
-              currentFilters={filters} // Passar os filtros atuais como prop
+              currentFilters={filters}
             />
             
             <button
@@ -274,7 +294,7 @@ export const PokemonList: React.FC = () => {
           </div>
         </div>
 
-        {/* Status de carregamento - mais compacto */}
+        {/* Status de carregamento otimizado */}
         {allLoading && (
           <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-4 mb-6">
             <div className="flex items-center gap-3">
@@ -296,6 +316,9 @@ export const PokemonList: React.FC = () => {
                         style={{ width: `${(progress.current / progress.total) * 100}%` }}
                       />
                     </div>
+                    <p className="text-xs text-blue-600 mt-1">
+                      {((progress.current / progress.total) * 100).toFixed(1)}% concluído
+                    </p>
                   </div>
                 )}
               </div>
@@ -303,7 +326,7 @@ export const PokemonList: React.FC = () => {
           </div>
         )}
 
-        {/* Status de carregamento completo - mais compacto */}
+        {/* Status de carregamento completo */}
         {isLoaded && !allLoading && (
           <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-3 mb-6">
             <div className="flex items-center gap-3">
@@ -320,8 +343,16 @@ export const PokemonList: React.FC = () => {
         )}
 
         {searchError && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-            <p className="text-red-600 text-center">{searchError}</p>
+          <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-6">
+            <div className="flex items-center gap-3">
+              <Filter className="text-orange-600 flex-shrink-0" size={20} />
+              <div>
+                <p className="text-orange-800 font-medium">{searchError}</p>
+                <p className="text-orange-600 text-sm mt-1">
+                  {t('search.generationSearchNotSupported')}
+                </p>
+              </div>
+            </div>
           </div>
         )}
 
@@ -384,7 +415,7 @@ export const PokemonList: React.FC = () => {
                   <>
                     {renderPokemonGrid(currentPokemons)}
                     
-                    <div className="flex justify-center mt-12 mb-8">
+                    <div className="flex justify-center mt-12">
                       <Pagination
                         currentPage={currentPage}
                         totalPages={totalFilteredPages}
