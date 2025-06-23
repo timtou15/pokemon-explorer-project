@@ -35,7 +35,7 @@ const translations = {
     'title.sprites': 'Sprites',
     'title.totalBaseStats': 'Total de Estatísticas Base',
     'title.filteredPokemon': 'Pokémon Filtrados',
-    'title.loadingAll': 'Carregando todos os Pokémon para filtros completos',
+    'title.loadingAll': 'Carregamento Otimizado',
     'title.allLoaded': 'Todos os Pokémon carregados',
     'title.filterDescription': 'Agora você pode filtrar entre todos os Pokémon disponíveis',
     
@@ -43,6 +43,8 @@ const translations = {
     'search.placeholder': 'Buscar Pokémon por nome ou ID...',
     'search.clear': 'Limpar busca',
     'search.notFound': 'Pokémon não encontrado',
+    'search.useFiltersForGeneration': 'Para buscar por geração, use os Filtros Avançados',
+    'search.generationSearchNotSupported': 'Busca por geração não suportada na barra de pesquisa',
     
     // Estatísticas
     'stats.height': 'Altura',
@@ -106,6 +108,15 @@ const translations = {
     'language.english': 'English',
     'language.current': 'Idioma atual',
     'language.clickToToggle': 'Clique para alternar',
+    
+    // Comparação
+    'comparison.title': 'Comparação Pokémon',
+    'comparison.addToComparison': 'Adicionar à Comparação',
+    'comparison.removeFromComparison': 'Remover da Comparação',
+    'comparison.clearAll': 'Limpar Tudo',
+    'comparison.pokemon': 'Pokémon',
+    'comparison.statsComparison': 'Comparação de Stats',
+    'comparison.totalStats': 'Total de Stats',
   },
   en: {
     // Navigation
@@ -127,7 +138,7 @@ const translations = {
     'title.sprites': 'Sprites',
     'title.totalBaseStats': 'Total Base Stats',
     'title.filteredPokemon': 'Filtered Pokémon',
-    'title.loadingAll': 'Loading all Pokémon for complete filtering',
+    'title.loadingAll': 'Optimized Loading',
     'title.allLoaded': 'All Pokémon loaded',
     'title.filterDescription': 'Now you can filter through all available Pokémon',
     
@@ -135,6 +146,8 @@ const translations = {
     'search.placeholder': 'Search Pokémon by name or ID...',
     'search.clear': 'Clear search',
     'search.notFound': 'Pokémon not found',
+    'search.useFiltersForGeneration': 'To search by generation, use Advanced Filters',
+    'search.generationSearchNotSupported': 'Generation search not supported in search bar',
     
     // Stats
     'stats.height': 'Height',
@@ -198,6 +211,15 @@ const translations = {
     'language.english': 'English',
     'language.current': 'Current language',
     'language.clickToToggle': 'Click to toggle',
+    
+    // Comparison
+    'comparison.title': 'Pokémon Comparison',
+    'comparison.addToComparison': 'Add to Comparison',
+    'comparison.removeFromComparison': 'Remove from Comparison',
+    'comparison.clearAll': 'Clear All',
+    'comparison.pokemon': 'Pokémon',
+    'comparison.statsComparison': 'Stats Comparison',
+    'comparison.totalStats': 'Total Stats',
   }
 };
 
