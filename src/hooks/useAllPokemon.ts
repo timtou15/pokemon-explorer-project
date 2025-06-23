@@ -19,7 +19,7 @@ export const useAllPokemon = () => {
       setLoading(true);
       setError(null);
       
-      console.log(`Carregando todos os Pokémon para filtros completos`);
+      console.log(`Carregamento otimizado iniciado`);
       
       // Primeiro, buscar a lista completa para obter o total exato
       const initialList = await pokemonService.getPokemonList(0, 1);
@@ -27,57 +27,82 @@ export const useAllPokemon = () => {
       setExactTotal(realTotal);
       setProgress({ current: 0, total: realTotal });
       
-      // Buscar todos os Pokémon principais (limitando a 1500 para performance)
-      const totalToLoad = Math.min(realTotal, 1500);
-      const pokemonList = await pokemonService.getPokemonList(0, totalToLoad);
+      console.log(`Total de Pokémon detectado: ${realTotal.toLocaleString()}`);
       
-      // Extrair IDs dos URLs
+      // Buscar todos os Pokémon com carregamento otimizado
+      const pokemonList = await pokemonService.getPokemonList(0, realTotal);
+      
+      // Extrair IDs dos URLs de forma otimizada
       const pokemonIds = pokemonList.results.map((item: any) => {
         const matches = item.url.match(/\/(\d+)\/$/);
         return matches ? parseInt(matches[1]) : 0;
-      }).filter(id => id > 0);
+      }).filter((id: number) => id > 0);
 
       console.log(`IDs extraídos: ${pokemonIds.length.toLocaleString()}`);
 
-      // Buscar detalhes em lotes otimizados
-      const batchSize = 100;
+      // Carregamento em lotes otimizados
+      const batchSize = 100; // Lotes maiores para melhor throughput
       const allPokemonData: Pokemon[] = [];
       
-      for (let i = 0; i < pokemonIds.length; i += batchSize) {
-        const batch = pokemonIds.slice(i, i + batchSize);
+      // Processar múltiplos lotes simultaneamente
+      const concurrentBatches = 3; // Processar 3 lotes ao mesmo tempo
+      
+      for (let i = 0; i < pokemonIds.length; i += batchSize * concurrentBatches) {
+        const batchPromises = [];
+        
+        // Criar múltiplos lotes simultâneos
+        for (let j = 0; j < concurrentBatches && (i + j * batchSize) < pokemonIds.length; j++) {
+          const startIndex = i + j * batchSize;
+          const batch = pokemonIds.slice(startIndex, startIndex + batchSize);
+          
+          if (batch.length > 0) {
+            batchPromises.push(
+              pokemonService.getPokemonBatch(batch).catch(error => {
+                console.warn(`Erro no lote ${startIndex}-${startIndex + batch.length}:`, error);
+                return [];
+              })
+            );
+          }
+        }
         
         try {
-          const batchData = await pokemonService.getPokemonBatch(batch);
-          const validPokemon = batchData.filter(pokemon => pokemon !== null);
-          allPokemonData.push(...validPokemon);
+          // Processar lotes simultaneamente
+          const batchResults = await Promise.all(batchPromises);
           
+          // Combinar resultados de todos os lotes
+          for (const batchData of batchResults) {
+            const validPokemon = batchData.filter(pokemon => pokemon !== null);
+            allPokemonData.push(...validPokemon);
+          }
+          
+          // Atualizar progresso
           setProgress({ current: allPokemonData.length, total: realTotal });
           setAllPokemons([...allPokemonData]);
           
-          // Log de progresso a cada 500 Pokémon
-          if (allPokemonData.length % 500 === 0) {
+          // Log de progresso otimizado
+          if (allPokemonData.length % 1000 === 0 || allPokemonData.length > pokemonIds.length - 100) {
             console.log(`Progresso: ${allPokemonData.length.toLocaleString()}/${realTotal.toLocaleString()}`);
           }
           
         } catch (batchError) {
-          console.error(`Erro no lote ${i}-${i + batchSize}:`, batchError);
+          console.error(`Erro no grupo de lotes ${i}:`, batchError);
         }
         
-        // Delay mínimo para não sobrecarregar a API
-        if (i + batchSize < pokemonIds.length) {
-          await new Promise(resolve => setTimeout(resolve, 50));
+        // Delay mínimo apenas entre grupos de lotes
+        if (i + batchSize * concurrentBatches < pokemonIds.length) {
+          await new Promise(resolve => setTimeout(resolve, 10));
         }
       }
 
-      console.log(`Carregamento completo concluído`);
-      console.log(`Pokémon carregados: ${allPokemonData.length.toLocaleString()}`);
+      console.log(`Carregamento otimizado concluído!`);
+      console.log(`Pokémon carregados: ${allPokemonData.length.toLocaleString()}/${realTotal.toLocaleString()}`);
       
       setAllPokemons(allPokemonData);
       setIsLoaded(true);
       setProgress({ current: allPokemonData.length, total: realTotal });
       
     } catch (err) {
-      console.error('Erro ao carregar Pokémon:', err);
+      console.error('Erro no carregamento:', err);
       setError(err instanceof Error ? err.message : 'Falha ao carregar Pokémon');
     } finally {
       setLoading(false);
